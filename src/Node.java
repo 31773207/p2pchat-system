@@ -267,9 +267,9 @@ String timestamp = LocalDateTime.now().format(timeFormatter);
                 }
                 
                 // Determine connection status with emojis
-                String status = "🟢 Online";
+                String status = "✅ Online";
                 if (socket.isClosed()) {
-                    status = "🔴 Closed";
+                    status = "❌ offline";
                 } else if (!socket.isConnected()) {
                     status = "🟡 Lost";
                 }
