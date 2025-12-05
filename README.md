@@ -30,7 +30,7 @@ This project implements a **pure P2P chat system** using Java sockets. Each node
            Client             Client            Client
 
 ## ⚡ How to Run
-1. Clone the repository: `git clone <repo-url>`
+1. Clone the repository: `git clone https://github.com/31773207/p2pchat-system.git`
 2. Navigate to `src` folder: `cd src`
 3. Compile the code: `javac Main.java Node.java`
 4. Run a node: `java Main`
