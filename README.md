@@ -18,15 +18,16 @@ This project implements a **pure P2P chat system** using Java sockets. Each node
 - ✅ **Simple Commands**: Easy-to-use command interface
 
 ## 🏗 Architecture
------------      ----------       ----------
-│ Node    │◄────►│ Node    │◄────►│ Node    │
-│ (Alice) │      │ (Bob)   │      │(Charlie)│
------------      -----------     ------------
-▲                    ▲                  ▲
-│                    │                  │
-Server             Server             Server 
-  +                   +                 +
-Client             Client            Client
+ 
+  +     + ┌─────────┐      ┌─────────┐      ┌─────────┐
+          │ Node    │◄────►│ Node    │◄────►│ Node    │
+          │ (Alice) │      │ (Bob)   │      │(Charlie)│
+          └─────────┘      └─────────┘      └─────────┘
+             ▲                   ▲               ▲
+             │                   │               │
+           Server             Server           Server 
+              +                   +               +
+           Client             Client            Client
 
 ## ⚡ How to Run
 1. Clone the repository: `git clone <repo-url>`
