@@ -3,8 +3,8 @@
 A lightweight **peer-to-peer** chat application where every user acts as both client and server. No central server required!
 
 The source code includes:
--Node.java: Handles connections, sending/receiving messages, local message history, and threads for listening to incoming messages.
--Main.java: Provides a console-based user interface and interacts with the Node object.
+- Node.java: Handles connections, sending/receiving messages, local message history, and threads for listening to incoming messages.
+- Main.java: Provides a console-based user interface and interacts with the Node object.
 
 ## 📌 Overview
 This project implements a **pure P2P chat system** using Java sockets. Each node in the network can:
