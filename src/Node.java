@@ -26,13 +26,7 @@ private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-d
     }
 
     // ======================================== ADD MESSAGE TO HISTORY ========================================
-    /**
-     * Adds a message to the local message history.
-     * Stores both sent and received messages with timestamps.
-     * 
-     * @param message The message to add to history
-     * @param isSent True if message was sent, false if received
-     */
+   
     private void addToHistory(String message, boolean isSent) {
 String timestamp = LocalDateTime.now().format(timeFormatter);
         String direction = isSent ? "SENT" : "RECV";
@@ -42,18 +36,12 @@ String timestamp = LocalDateTime.now().format(timeFormatter);
         
         // Keep history size manageable
         if (messageHistory.size() > MAX_HISTORY_SIZE) {
-            messageHistory.remove(0);  // Remove oldest message
+            messageHistory.remove(0);  
         }
     }
 
     // ======================================== 1. CONNECT TO OTHER PEERS ========================================
-    /**
-     * Establishes a persistent connection to another peer.
-     * Called when user types: /connect <IP>:<PORT>
-     * 
-     * @param ip The IP address of the peer to connect to
-     * @param port The port number of the peer to connect to
-     */
+   
     public void addPeer(String ip, int port) {
         InetSocketAddress peerAddress = new InetSocketAddress(ip, port);
         
@@ -94,13 +82,7 @@ String timestamp = LocalDateTime.now().format(timeFormatter);
     }
 
     // ======================================== 2. RECEIVE MESSAGES FROM PEERS ========================================
-    /**
-     * Listens for incoming messages from a specific peer.
-     * Runs in a separate thread for each connected peer.
-     * 
-     * @param socket The socket connection to the peer
-     * @param peerAddress The address of the peer
-     */
+   
     private void listenToPeer(Socket socket, InetSocketAddress peerAddress) {
         try {
             // Create input stream reader for the socket
@@ -119,9 +101,7 @@ String timestamp = LocalDateTime.now().format(timeFormatter);
             }
             
         } catch (IOException e) {
-            // Connection was closed (normal when peer disconnects)
         } finally {
-            // Clean up when connection ends
             removePeer(peerAddress);
             System.out.println("\nPeer disconnected: " + peerAddress);
             System.out.print(username + "> ");
@@ -129,12 +109,7 @@ String timestamp = LocalDateTime.now().format(timeFormatter);
     }
 
     // ======================================== 3. MANAGE PEER CONNECTIONS ========================================
-    /**
-     * Removes a peer from the connection list and closes the socket.
-     * Called when a peer disconnects or connection fails.
-     * 
-     * @param peerAddress The address of the peer to remove
-     */
+
     private void removePeer(InetSocketAddress peerAddress) {
         try {
             // Close the socket if it exists
@@ -152,12 +127,7 @@ String timestamp = LocalDateTime.now().format(timeFormatter);
     }
 
     // ======================================== 4. SEND MESSAGES TO ALL PEERS ========================================
-    /**
-     * Broadcasts a message to all connected peers.
-     * Called when user types a regular message (not a command).
-     * 
-     * @param message The message text to broadcast
-     */
+    
     public void sendMessage(String message) {
         // Ignore empty messages
         if (message.trim().isEmpty()) {
@@ -190,10 +160,7 @@ String timestamp = LocalDateTime.now().format(timeFormatter);
     }
 
     // ======================================== 5. ACCEPT INCOMING CONNECTIONS ========================================
-    /**
-     * Starts a server socket to accept incoming connections from other peers.
-     * Runs in a separate thread to avoid blocking user input.
-     */
+   
     public void startListening() {
         new Thread(() -> {
             try (ServerSocket serverSocket = new ServerSocket(port)) {
@@ -234,10 +201,7 @@ String timestamp = LocalDateTime.now().format(timeFormatter);
     }
 
     // ======================================== 6. SHOW CONNECTED PEERS ========================================
-    /**
-     * Shows all currently connected peers with their connection status and duration.
-     * Called when user types: /list
-     */
+    
     public void showConnectedPeers() {
         System.out.println("\n" + "=".repeat(50));
         System.out.println("CONNECTED PEERS LIST");
@@ -289,10 +253,7 @@ String timestamp = LocalDateTime.now().format(timeFormatter);
     }
 
     // ======================================== 7. SHOW MESSAGE HISTORY ========================================
-    /**
-     * Displays the local message history (sent and received messages).
-     * Called when user types: /history
-     */
+   
     public void showMessageHistory() {
         System.out.println("\n" + "=".repeat(70));
         System.out.println("MESSAGE HISTORY (Last " + messageHistory.size() + " messages)");
@@ -317,10 +278,7 @@ String timestamp = LocalDateTime.now().format(timeFormatter);
     }
 
     // ======================================== 8. CLEAR MESSAGE HISTORY ========================================
-    /**
-     * Clears the local message history.
-     * Called when user types: /clearhistory
-     */
+    
     public void clearMessageHistory() {
         messageHistory.clear();
         System.out.println("\nMessage history cleared.");
@@ -328,12 +286,7 @@ String timestamp = LocalDateTime.now().format(timeFormatter);
     }
 
     // ======================================== 9. SAVE HISTORY TO FILE ========================================
-    /**
-     * Saves the message history to a file.
-     * Called when user types: /savehistory <filename>
-     * 
-     * @param filename The name of the file to save to
-     */
+    
     public void saveHistoryToFile(String filename) {
         try (PrintWriter fileWriter = new PrintWriter(new FileWriter(filename))) {
             fileWriter.println("Chat History for: " + username);
@@ -352,17 +305,13 @@ String timestamp = LocalDateTime.now().format(timeFormatter);
     }
 
     // ======================================== 10. CLEAN SHUTDOWN ========================================
-    /**
-     * Gracefully shuts down all connections and stops listening threads.
-     * Should be called before exiting the application.
-     */
+    
     public void shutdown() {
         running = false; // Signal threads to stop
         for (Socket socket : peerSockets.values()) {
             try {
                 socket.close(); // Close all peer connections
             } catch (IOException e) {
-                // Ignore errors during shutdown
             }
         }
     }
